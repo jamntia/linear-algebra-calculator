@@ -78,27 +78,26 @@ class TestOperations(unittest.TestCase):
 
     def test_nullity(self):
         full_rank_matrix = [[1, 0], [0, 1]]
-        rank_deficient_matrix = [[1, 2, 3], [4, 8, 12]]
+        rank_deficient_matrix = [[1, 2, 3], [4, 8, 12]]  
         self.assertEqual(nullity(full_rank_matrix), 0)
         self.assertEqual(nullity(rank_deficient_matrix), 1)
     
+    def test_column_space(self):
+        matrix = [[1, 2], [3, 6], [2, 4]]
+        column_space_basis = [[1, 3, 2], [2, 6, 4]] 
+        self.assertEqual(column_space(matrix), column_space_basis)
+
     def test_null_space(self):
         matrix1 = [[1, 2], [2, 4]]
         matrix2 = [[1, 2, 3], [3, 6, 9]]
-        null_space_basis1 = [[-2, 1]]
-        null_space_basis2 = [[-2, 1, 0]]
+        null_space_basis1 = [[-2, 1]] 
+        null_space_basis2 = [[-2, 1, 0]] 
         self.assertEqual(null_space(matrix1), null_space_basis1)
         self.assertEqual(null_space(matrix2), null_space_basis2)
-
-    def test_column_space(self):
-        matrix = [[1, 2], [3, 6], [2, 4]]
-        column_space_basis = [[1, 3, 2], [2, 6, 4]]
-        self.assertEqual(column_space(matrix), column_space_basis)
 
     def test_row_space(self):
         matrix = [[1, 2], [3, 6], [2, 4]]
         row_space_basis = [[1, 2], [0, 0], [0, 0]]
         self.assertEqual(row_space(matrix), row_space_basis)
-
 if __name__ == '__main__':
     unittest.main()

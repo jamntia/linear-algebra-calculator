@@ -1,4 +1,5 @@
 # operations.py
+import numpy as np
 
 # See if two matrices are equal
 def is_equal(matrix1, matrix2):
@@ -275,14 +276,14 @@ def rank(matrix):
 
 # Method to find the nullity of a matrix
 def nullity(matrix):
-    # Compute the reduced row echelon form (RREF) of the matrix
-    rref_matrix = rref(matrix)
+    # Compute the rank of the matrix
+    matrix_rank = rank(matrix)
     
-    # Count the number of columns without leading 1's in the RREF
-    num_free_variables = sum(1 for j in range(len(rref_matrix[0])) if not any(rref_matrix[i][j] for i in range(len(rref_matrix))))
+    # Calculate the nullity
+    nullity = len(matrix[0]) - matrix_rank
     
-    # The nullity is the number of free variables
-    return num_free_variables
+    return nullity
+
 
 # Method to find the null space of a matrix
 def null_space(matrix):
@@ -311,6 +312,7 @@ def null_space(matrix):
     
     return null_space_basis
 
+
 # Method to find the column space of a matrix
 def column_space(matrix):
     # Compute the reduced row echelon form (RREF) of the matrix
@@ -325,7 +327,7 @@ def column_space(matrix):
                 break
     
     # Extract the corresponding columns from the original matrix
-    column_space_basis = [matrix[:, j] for j in leading_one_columns]
+    column_space_basis = [[matrix[i][j] for j in leading_one_columns] for i in range(len(matrix))]
     
     return column_space_basis
 
@@ -335,14 +337,9 @@ def row_space(matrix):
     rref_matrix = rref(matrix)
     
     # Identify the rows with leading 1's in the RREF
-    leading_one_rows = []
-    for i in range(len(rref_matrix)):
-        for j in range(len(rref_matrix[0])):
-            if rref_matrix[i][j] == 1:
-                leading_one_rows.append(i)
-                break
+    leading_one_rows = [i for i, row in enumerate(rref_matrix) if 1 in row]
     
     # Extract the corresponding rows from the original matrix
-    row_space_basis = [matrix[i, :] for i in leading_one_rows]
+    row_space_basis = [matrix[i] for i in leading_one_rows]
     
     return row_space_basis
