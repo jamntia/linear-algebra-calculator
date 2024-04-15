@@ -226,10 +226,6 @@ def minor(matrix, row, col):
     # Helper function to compute the minor of a matrix after removing a specified row and column
     return [row[:col] + row[col + 1:] for row in (matrix[:row] + matrix[row + 1:])]
 
-# Method to calculate determinant (you can use your existing method)
-def determinant(matrix):
-    # Implementation of determinant calculation goes here
-    pass
 
 # Method to calculate the inverse of a matrix
 def inverse(matrix):
