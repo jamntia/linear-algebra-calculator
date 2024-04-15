@@ -225,3 +225,128 @@ def determinant(matrix):
 def minor(matrix, row, col):
     # Helper function to compute the minor of a matrix after removing a specified row and column
     return [row[:col] + row[col + 1:] for row in (matrix[:row] + matrix[row + 1:])]
+
+# Method to calculate determinant (you can use your existing method)
+def determinant(matrix):
+    # Implementation of determinant calculation goes here
+    pass
+
+# Method to calculate the inverse of a matrix
+def inverse(matrix):
+    num_rows = len(matrix)
+    num_cols = len(matrix[0])
+
+    # Check if the matrix is square
+    if num_rows != num_cols:
+        raise ValueError("Matrix must be square to find inverse.")
+
+    # Check if determinant is nonzero
+    det = determinant(matrix)
+    if det == 0:
+        raise ValueError("Determinant of the matrix is zero. Inverse does not exist.")
+
+    # Initialize the identity matrix
+    identity = [[1 if i == j else 0 for j in range(num_cols)] for i in range(num_rows)]
+
+    # Keep track of the row operations performed on the identity matrix
+    for i in range(num_rows):
+        # Find the pivot element
+        pivot = matrix[i][i]
+
+        # Scale the current row of the identity matrix to make the pivot element 1
+        for j in range(num_cols):
+            identity[i][j] /= pivot
+
+        # Perform row operations to make all elements above and below the pivot element zero
+        for k in range(num_rows):
+            if k != i:
+                factor = matrix[k][i]
+                for j in range(num_cols):
+                    matrix[k][j] -= factor * matrix[i][j]
+                    identity[k][j] -= factor * identity[i][j]
+
+    return identity
+
+# Method to find the rank of a matrix
+def rank(matrix):
+    # Compute the reduced row echelon form (RREF) of the matrix
+    rref_matrix = rref(matrix)
+    
+    # Count the number of non-zero rows in the RREF
+    rank = sum(1 for row in rref_matrix if any(row))
+    
+    return rank
+
+# Method to find the nullity of a matrix
+def nullity(matrix):
+    # Compute the reduced row echelon form (RREF) of the matrix
+    rref_matrix = rref(matrix)
+    
+    # Count the number of columns without leading 1's in the RREF
+    num_free_variables = sum(1 for j in range(len(rref_matrix[0])) if not any(rref_matrix[i][j] for i in range(len(rref_matrix))))
+    
+    # The nullity is the number of free variables
+    return num_free_variables
+
+# Method to find the null space of a matrix
+def null_space(matrix):
+    # Compute the reduced row echelon form (RREF) of the matrix
+    rref_matrix = rref(matrix)
+    
+    # Determine the number of free variables (columns without leading 1's)
+    num_free_variables = sum(1 for j in range(len(rref_matrix[0])) if not any(rref_matrix[i][j] for i in range(len(rref_matrix))))
+    
+    # Initialize a list to store the basis vectors of the null space
+    null_space_basis = []
+    
+    # Iterate over each free variable
+    for j in range(num_free_variables):
+        # Create a basis vector with a 1 in the corresponding position of the free variable
+        basis_vector = [0] * num_free_variables
+        basis_vector[j] = 1
+        
+        # Back-substitute to find the values of the dependent variables
+        for i in range(len(rref_matrix) - 1, -1, -1):
+            dependent_var = sum(rref_matrix[i][k] * basis_vector[k] for k in range(j + 1, len(rref_matrix[0])))
+            basis_vector.insert(0, -dependent_var)
+        
+        # Add the basis vector to the null space
+        null_space_basis.append(basis_vector)
+    
+    return null_space_basis
+
+# Method to find the column space of a matrix
+def column_space(matrix):
+    # Compute the reduced row echelon form (RREF) of the matrix
+    rref_matrix = rref(matrix)
+    
+    # Identify the columns with leading 1's in the RREF
+    leading_one_columns = []
+    for j in range(len(rref_matrix[0])):
+        for i in range(len(rref_matrix)):
+            if rref_matrix[i][j] == 1:
+                leading_one_columns.append(j)
+                break
+    
+    # Extract the corresponding columns from the original matrix
+    column_space_basis = [matrix[:, j] for j in leading_one_columns]
+    
+    return column_space_basis
+
+# Method to find the row space of a matrix
+def row_space(matrix):
+    # Compute the reduced row echelon form (RREF) of the matrix
+    rref_matrix = rref(matrix)
+    
+    # Identify the rows with leading 1's in the RREF
+    leading_one_rows = []
+    for i in range(len(rref_matrix)):
+        for j in range(len(rref_matrix[0])):
+            if rref_matrix[i][j] == 1:
+                leading_one_rows.append(i)
+                break
+    
+    # Extract the corresponding rows from the original matrix
+    row_space_basis = [matrix[i, :] for i in leading_one_rows]
+    
+    return row_space_basis
