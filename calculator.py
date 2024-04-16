@@ -28,11 +28,13 @@ result_nullity = nullity(matrix1)
 result_null_space = null_space(matrix1)
 result_column_space = column_space(matrix1)
 result_row_space = row_space(matrix1)
+result_multiply = matrix_multiplication(matrix1, matrix2)
 
 # Displaying results
 print("Matrix Equality:", result_equal)
 print("Matrix Addition:", result_add)
 print("Scalar Multiplication:", result_scalar_multiplication)
+print("Matrix Multiplication:", result_multiply)
 print("Transpose:", result_transpose)
 print("Reduced Row Echelon Form:", result_rref)
 print("Augmented Matrix:", result_augment)

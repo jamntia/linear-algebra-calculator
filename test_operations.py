@@ -99,5 +99,11 @@ class TestOperations(unittest.TestCase):
         matrix = [[1, 2], [3, 6], [2, 4]]
         row_space_basis = [[1, 2], [0, 0], [0, 0]]
         self.assertEqual(row_space(matrix), row_space_basis)
+    
+    def test_matrix_multiplication(self):
+        matrix1 = [[1, 2], [3, 4]]
+        matrix2 = [[5, 6], [7, 8]]
+        result = [[19, 22], [43, 50]]
+        self.assertEqual(matrix_multiplication(matrix1, matrix2), result)
 if __name__ == '__main__':
     unittest.main()

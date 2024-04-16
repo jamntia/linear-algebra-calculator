@@ -343,3 +343,28 @@ def row_space(matrix):
     row_space_basis = [matrix[i] for i in leading_one_rows]
     
     return row_space_basis
+
+# Matrix Multiplication
+def matrix_multiplication(matrix1, matrix2):
+    
+    # Check if the matrices can be multiplied
+    if len(matrix1[0]) != len(matrix2):
+        raise ValueError("Number of columns in matrix1 must be equal to the number of rows in matrix2.")
+
+    # Initialize the result matrix
+    result = []
+
+    # Iterate over each row in matrix1
+    for i in range(len(matrix1)):
+        # Initialize a row in the result matrix
+        row_result = []
+        # Iterate over each column in matrix2
+        for j in range(len(matrix2[0])):
+            # Compute the dot product of the i-th row in matrix1 and the j-th column in matrix2
+            dot_product = sum(matrix1[i][k] * matrix2[k][j] for k in range(len(matrix2)))
+            # Append the dot product to the row result
+            row_result.append(dot_product)
+        # Append the row result to the result matrix
+        result.append(row_result)
+
+    return result
