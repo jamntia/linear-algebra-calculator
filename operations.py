@@ -353,18 +353,16 @@ def matrix_multiplication(matrix1, matrix2):
 
     # Initialize the result matrix
     result = []
-
-    # Iterate over each row in matrix1
+ 
+    # explicit for loops
     for i in range(len(matrix1)):
-        # Initialize a row in the result matrix
-        row_result = []
-        # Iterate over each column in matrix2
+        row = []
         for j in range(len(matrix2[0])):
-            # Compute the dot product of the i-th row in matrix1 and the j-th column in matrix2
-            dot_product = sum(matrix1[i][k] * matrix2[k][j] for k in range(len(matrix2)))
-            # Append the dot product to the row result
-            row_result.append(dot_product)
-        # Append the row result to the result matrix
-        result.append(row_result)
+            element = 0
+            for k in range(len(matrix2)):
+                # Calculate the element of the resulting matrix
+                element += matrix1[i][k] * matrix2[k][j]
+            row.append(element)
+        result.append(row)
 
     return result
